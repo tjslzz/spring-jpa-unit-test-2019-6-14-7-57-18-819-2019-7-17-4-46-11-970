@@ -1,5 +1,6 @@
 package com.oocl.web.sampleWebApp.jpaSample.repository;
 
+import com.oocl.web.sampleWebApp.jpaSample.entity.RelatedEntity;
 import com.oocl.web.sampleWebApp.jpaSample.entity.SingleEntity;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,10 +15,12 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
-public class SingleEntityRepositoryTest {
+public class EntityRepositoryTest {
 
     @Autowired
     private SingleEntityRepository singleEntityRepository;
+    @Autowired
+    private RelatedEntityRepository relatedEntityRepository;
 
     @Test
     @DirtiesContext
@@ -35,5 +38,19 @@ public class SingleEntityRepositoryTest {
         singleEntityRepository.save(singleEntity);
         assertThrows(Exception.class,()->singleEntityRepository.findAll());
 
+    }
+
+
+    @Test
+    @DirtiesContext
+    public void should_be_able_to_handle_one_to_one_relationship(){
+        SingleEntity singleEntity = new SingleEntity("jerryLi");
+        singleEntityRepository.save(singleEntity);
+        RelatedEntity relatedEntity = new RelatedEntity("felicity",singleEntity);
+        relatedEntityRepository.save(relatedEntity);
+
+        List<RelatedEntity> result = (List<RelatedEntity>) relatedEntityRepository.findAll();
+        assertEquals(1,result.size());
+        assertEquals(singleEntity.getName(),result.get(0).getSingleEntity().getName());
     }
 }
