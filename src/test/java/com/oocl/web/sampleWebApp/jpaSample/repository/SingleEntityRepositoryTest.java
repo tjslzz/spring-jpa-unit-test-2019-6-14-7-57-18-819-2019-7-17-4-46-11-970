@@ -27,4 +27,13 @@ public class SingleEntityRepositoryTest {
         List<SingleEntity> result = (List<SingleEntity>) singleEntityRepository.findAll();
         assertEquals(1,result.size());
     }
+
+    @Test
+    @DirtiesContext
+    public void should_be_able_to_return_exception(){
+        SingleEntity singleEntity = new SingleEntity("jerryLijerryLijerryLijerryLijerryLijerryLijerryLijerryLijerryLijerryLijerryLijerryLi");
+        singleEntityRepository.save(singleEntity);
+        assertThrows(Exception.class,()->singleEntityRepository.findAll());
+
+    }
 }
