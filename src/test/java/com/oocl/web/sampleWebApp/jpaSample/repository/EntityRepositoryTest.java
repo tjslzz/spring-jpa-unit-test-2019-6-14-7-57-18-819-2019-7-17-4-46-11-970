@@ -53,4 +53,12 @@ public class EntityRepositoryTest {
         assertEquals(1,result.size());
         assertEquals(singleEntity.getName(),result.get(0).getSingleEntity().getName());
     }
+
+    @Test
+    @DirtiesContext
+    public void should_be_able_to_return_exception_given_none_entity(){
+        RelatedEntity relatedEntity = new RelatedEntity("felicity");
+        relatedEntityRepository.save(relatedEntity);
+        assertThrows(Exception.class,()->relatedEntityRepository.findAll());
+    }
 }

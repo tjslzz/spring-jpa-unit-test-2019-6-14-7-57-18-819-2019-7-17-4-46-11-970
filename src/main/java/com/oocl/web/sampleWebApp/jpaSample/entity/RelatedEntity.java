@@ -12,6 +12,7 @@ public class RelatedEntity {
     private String name;
 
     @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(nullable = false)
     private SingleEntity singleEntity;
 
     public RelatedEntity() {
@@ -20,6 +21,10 @@ public class RelatedEntity {
     public RelatedEntity(String name, SingleEntity singleEntity) {
         this.name = name;
         this.singleEntity = singleEntity;
+    }
+
+    public RelatedEntity(String name) {
+        this.name = name;
     }
 
     public Long getId() {
